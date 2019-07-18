@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>LunaChatの使い方</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    * {
+      font-family: "メイリオ", "Meiryo UI", "MS UI Gothic", "ヒラギノ角ゴシック";
+      background-color: #E6E6E6;
+    }
+    </style>
+  </head>
+  <body>
+    <main role="main">
+      <div class="container">
+<img class="mt-5" src="img/lunachat.png" alt="">
+        
+        <h1 class="mt-5">LunaChatの使い方</h1>
+
+<h2>概要</h2>
+
+<p>
+このプラグイン LunaChat は、チャンネルチャットシステムと、ローマ字発言の自動日本語化を実現することができます。
+
+<ul>
+	<li>ローマ字発言の日本語化のみの使用も、もちろん可能です。その場合、jarファイルの導入のみでOKです。</li>
+	<li>チャンネルチャットは、チャンネルごとにさまざまなオプションを設定できます。</li>
+	<li>パスワードでチャンネルを保護したり、リストに表示されない設定ができます。</li>
+	<li>チャンネル管理者を設定できます。チャンネルにおける kick や ban の実行、各種設定変更を行うことができます。</li>
+	<li>チャンネルに対して発言されたローマ字発言の日本語化結果は、チャンネルの参加者にだけ表示されます。</li>
+	<li>ローマ字の日本語化を、GoogleIMEを使用して、カナから漢字に変換することも可能です。</li>
+	<li>/tell コマンドの置き換えに対応しており、/tellコマンドの発言を、カナ/漢字置き換えすることが可能です。</li>
+	<li>/r コマンドを使って、/tell コマンドにすばやく返信することが可能です。</li>
+	<li>各種APIを取り揃えており、他プラグインとの連係動作が可能です。</li>
+</ul>
+</p>
+
+<h2>スクリーンショット</h2>
+
+<p>
+<img src="img/lunachat_demo.png" width="653" height="223" border="0">
+</p>
+
+
+<h2>使い方</h2>
+
+<p>
+LunaChat.jar を plugins フォルダに入れてから、CraftBukkit を起動してください。<br/>
+必要に応じて、plugins/LunaChat/config.yml を編集してください。<br/>
+※ PermissionsExやiChatなどに設定した prefix、suffix を使用したい場合は、Vaultを導入してください。<br/>
+</p>
+
+<h2>コマンド</h2>
+
+<p>
+/ch と打つことでヘルプが表示されますので、ご参照ください。<br/>
+<a href="https://github.com/ucchyocean/LunaChat/wiki/Commands">詳細情報はこちらにまとめてあります。</a>
+</p>
+
+<h2>コマンド解説一覧</h2>
+
+<h3>一般ユーザー用コマンド</h3>
+
+<p>
+<ul>
+	<li>/ch create (channel) <br/>
+チャンネルを作成します。</li>
+	<li>/ch join (channel) <br/>
+チャンネルに参加します。</li>
+	<li>/ch join ! <br/>
+発言先を通常チャットに変更します。</li>
+	<li>/ch leave <br/>
+参加しているチャンネルから退出します。</li>
+	<li>/ch list <br/>
+チャンネルのリストを表示します。
+現在の発言先に設定されているチャンネルは赤で、参加しているチャンネルは白で、
+参加していないチャンネルはグレーで表示されます。
+数字は、参加人数（オンライン人数/総参加人数）が表示されます。</li>
+	<li>/ch info <br/>
+チャンネルの情報を表示します。
+オンラインのメンバーは白で、オフラインのメンバーはグレーで表示されます。
+チャンネルモデレーターは、名前の前に「@」が付いています。</li>
+	<li>/ch log<br/>
+チャンネルの発言ログ（当日の分）を表示します。
+過去の日付のログを参照する場合は、/ch log d=0920 のように、d= の後に4桁の数字で、参照したい日付を指定してください。
+ログをプレイヤー名でフィルタしたい場合は p=(プレイヤー名) を、発言内容でフィルタしたい場合は f=(キーワード) を指定してください。</li>
+	<li>/ch accept <br/>
+招待を受けてチャンネルチャットに入室します。</li>
+	<li>/ch deny <br/>
+招待を拒否します。</li>
+	<li>/ch hide [channel] <br/>
+指定したチャンネルの発言内容を非表示にします。指定を省略すると、現在自分が居るチャンネルが非表示になります。
+非表示に設定してあるチャンネルは、/ch list 実行時に暗い青で表示されます。</li>
+	<li>/ch unhide [channel]<br/>
+指定したチャンネルの発言内容を非表示から表示に戻します。</li>
+	<li>/jp off <br/>
+自分のチャット日本語変換をオフにします。
+海外圏プレイヤーへの応対など、英語を喋りたいときにお使いください。
+※ 発言の頭に「#」を入れることでも、一時的に日本語変換をオフにすることが可能です。</li>
+	<li>/jp on <br/>
+自分のチャット日本語変換をオンにします。</li>
+</ul>
+</p>
+
+<h3>チャンネルモデレーター用コマンド</h3>
+
+<p>
+チャンネルモデレーターは、チャンネルを最初に作った人に設定されます。
+
+<ul>
+	<li>/ch invite (name) <br/>
+指定した人をチャンネルチャットに招待します。</li>
+	<li>/ch mute (name) <br/>
+指定した人をチャンネルチャットでMuteします。</li>
+	<li>/ch mute (name) [minutes]<br/>
+指定した人を指定した分間、Muteします。</li>
+	<li>/ch unmute (name) <br/>
+指定した人のMuteを解除します。</li>
+	<li>/ch kick (name) <br/>
+指定した人をチャンネルチャットからキックします。</li>
+	<li>/ch ban (name) <br/>
+指定した人をチャンネルチャットからBANします。</li>
+	<li>/ch ban (name) [minutes]<br/>
+指定した人を指定した分間、BANします。</li>
+	<li>/ch pardon (name) <br/>
+指定した人のBANを解除します。</li>
+	<li>/ch remove <br/>
+チャンネルを削除します。</li>
+	<li>/ch moderator (player...)<br/>
+チャンネルのモデレーターを設定します。
+複数人をいっぺんに指定可能です。
+モデレーターから外す人は、名前の前にマイナス「-」を付けてください。</li>
+	<li>/ch option (key=value...) <br/>
+チャンネルのオプションを設定します。
+例）/ch option color=red - チャンネルの色を赤に設定します。
+例）/ch option password=aiueo - チャンネルの入室パスワードを「aiueo」にします。</li>
+</ul>
+</p>
+
+
+
+<h2>コンフィグ</h2>
+<p>
+設定変更は、config.yml を編集して保存した後、/ch reload コマンドを実行して再読み込みしてください。
+また、ファイル中に日本語で説明が書いてあるので、参考にしてください。
+
+<pre>
+# LunaChat v2.8.9
+# @author     ucchy
+# @license    LGPLv3
+# @copyright  Copyright ucchy 2013
+
+
+# -------------------- 全般設定 --------------------
+
+# チャンネルチャット機能を利用可能にするかどうか
+# Japanize機能のみを利用したい場合は、falseにしてください。
+enableChannelChat: true
+
+# イベント処理の優先度を設定できます。
+# 他のプラグインとの組み合わせでうまく動かないときに使用してください。
+# LOWEST, LOW, NORMAL, HIGH, HIGHEST のどれかを指定できます。
+# よくわからない場合は、デフォルトのHIGHのままにしてください。
+playerChatEventListenerPriority: 'HIGH'
+
+
+# -------------------- チャンネルチャット設定 --------------------
+
+# チャンネルチャットに入っていない人の発言を、グローバルとして扱うかどうか
+noJoinAsGlobal: true
+
+# チャンネルチャットの発言内容を、ログに残すかどうか
+loggingChat: true
+
+# チャンネルチャットの発言内容を、HawkEyeに記録するかどうか
+# この設定を利用する場合は、HawkEyeのconfig.ymlで、log: セクションの chat の設定を true にしてください。
+loggingChatToHawkEye: true
+
+# チャンネルチャットの発言内容を、Prismに記録するかどうか
+# この設定を利用する場合は、Prismのconfig.ymlで、
+# tracking: セクションの player-chat の設定を true にしてください。
+loggingChatToPrism: true
+
+# チャンネルチャットの発言内容を、サーバーコンソールに表示するかどうか
+displayChatOnConsole: true
+
+# グローバルマーカー。
+# これが発言の頭に入っている場合は、一時的にグローバル発言になる。
+globalMarker: '!'
+
+# 全てのメンバーが退出したときに、チャンネルを削除するかどうか
+zeroMemberRemove: false
+
+# ログイン時に、参加中チャンネルを表示するかどうか
+showListOnJoin: false
+
+# /ch join コマンドで存在しないチャンネルを指定したときに、
+# チャンネルを新規作成して入室するかどうか
+createChannelOnJoinCommand: false
+
+# 通常のチャットの代わりに、既定として使用するグローバルチャンネル。
+# グローバルチャンネルを作らず通常のチャットを使用する場合は、
+# から文字列 「''」 を指定すること。
+globalChannel: ''
+
+# サーバーに参加したユーザーに必ず参加させるチャンネル。
+# グローバルチャンネルとは別で指定できる。
+# 複数のチャンネルを設定可能。例）forceJoinChannels: ['L', 'M', 'N']
+forceJoinChannels: []
+
+# formatコマンド実行時に、必ず含まれる必要があるキーワード。
+formatConstraint: ['%username', '%msg']
+
+# チャンネルを作成したときに、デフォルトで設定されるフォーマット設定。
+# フォーマット設定には、下記のキーワードが使用できます。
+# %ch       : チャンネル名
+# %color    : チャンネルカラー
+# %username : 発言者表示名
+# %player   : 発言者ID
+# %world    : 発言したワールド名
+# %prefix   : プレフィックス（VaultとPermissionsExが導入されている場合に置き換えられます）
+# %suffix   : サフィックス（VaultとPermissionsExが導入されている場合に置き換えられます）
+# %date     : 日付
+# %time     : 時刻
+# %msg      : 発言内容（Japanize変換された場合は、Japanize結果を含みます。）
+defaultFormat: '&f[%color%ch&f]%prefix%username%suffix&a:&f %msg'
+
+# OPの画面に、全チャンネルの発言内容を表示する設定。
+opListenAllChannel: false
+
+# チャンネルを新規作成するときに、チャンネル名が満たさなければならない、最低文字列長。
+# 指定されたチャンネル名がこの文字数を下回る場合は、エラーになってチャンネルを作成できません。
+minChannelNameLength: 4
+
+# チャンネルを新規作成するときに、チャンネル名が満たさなければならない、最大文字列長。
+# 指定されたチャンネル名がこの文字数を上回る場合は、エラーになってチャンネルを作成できません。
+maxChannelNameLength: 20
+
+# クイックチャンネルチャット機能を有効化するかどうか。
+# クイックチャンネルチャットは、「(チャンネル名 or エイリアス) + (専用の記号) + (発言内容) 」を発言すると使用できます。
+# 例えば、mainチャンネルにエイリアスmを設定しておくと、mainチャンネルを発言先にしなくても、
+# m:こんにちは！
+# と発言することで、mainチャンネルに発言を行うことができます。
+enableQuickChannelChat: true
+
+# クイックチャンネルチャット機能に使用する記号。
+quickChannelChatSeparator: ':'
+
+
+# -------------------- プライベートメッセージ設定 --------------------
+
+# /tell や /msg や /r コマンドでプライベートメッセージを送信するときに、
+# 適用されるフォーマット設定。
+# フォーマット設定には、下記のキーワードが使用できます。
+# %ch       : チャンネル名（「%player>%to」と同一です。）
+# %username : 発言者表示名
+# %player   : 発言者ID
+# %to       : 発言の相手（受信者）のID
+# %world    : 発言したワールド名
+# %prefix   : プレフィックス（VaultとPermissionsExが導入されている場合に置き換えられます）
+# %suffix   : サフィックス（VaultとPermissionsExが導入されている場合に置き換えられます）
+# %date     : 日付
+# %time     : 時刻
+# %msg      : 発言内容（Japanize変換された場合は、Japanize結果を含みます。）
+defaultFormatForPrivateMessage: '&7[%player -> %to]&f %msg'
+
+
+# -------------------- dynmap連携設定 --------------------
+
+# ブロードキャストチャンネルの発言内容を、dynmapに送信するかどうか。
+# dynmapがロードされていない場合は、この設定は無視される（false扱い）。
+sendBroadcastChannelChatToDynmap: true
+
+# dynmapへ送信するときに、チャンネルのフォーマットを反映して送信するかどうか。
+# trueにするとチャンネルフォーマットを反映したメッセージをdynmapに表示します。
+# falseにするとメッセージのみをdynmapに表示します。
+# 参考：https://github.com/ucchyocean/LunaChat/issues/68
+sendFormattedMessageToDynmap: false
+
+# dynmapのWebUIから発言された発言内容を表示するチャンネル。
+# dynmapChannelが無指定で、globalChannelが指定されているなら、グローバルチャンネルに、
+# dynmapChannelが無指定で、globalChannelも無指定なら、通常チャットに発言される。
+dynmapChannel: ''
+
+
+
+# -------------------- NGワード設定 --------------------
+
+# NGワード設定。正規表現が指定可能です。
+# ここに設定されたワードを発言したプレイヤーは、NGワード部分がマスクされます。
+ngword: ['ちん(こ|ぽ|ちん)']
+
+# NGワード発言時の動作設定。mask、mute、kick、ban の4つのいずれかが設定可能。
+# mask : NGワードをマスクする
+# mute : NGワードをマスクしたのち、発言したプレイヤーをチャンネルからMuteする
+# kick : NGワードをマスクしたのち、発言したプレイヤーをチャンネルからキックする
+# ban  : NGワードをマスクしたのち、発言したプレイヤーをチャンネルからBANする
+# ※ 通常チャット（非チャンネルチャット）の場合は、
+#    kickやbanを設定しても、マスクのみが実行されます。
+ngwordAction: mask
+
+
+
+# -------------------- チャット装飾設定 --------------------
+
+# チャンネルチャット機能を利用しないユーザーのための設定です。
+
+# 通常チャット（非チャンネルチャット）の装飾を、LunaChatから行うかどうか。
+# Vault がロードされていない場合は、この設定は無視される（false扱い）。
+enableNormalChatMessageFormat: true
+
+# チャット装飾のフォーマット設定。
+# フォーマット設定には、下記のキーワードが使用できます。
+# %username : 発言者表示名
+# %world    : 発言したワールド名
+# %prefix   : プレフィックス（VaultとPermissionsExが導入されている場合に置き換えられます）
+# %suffix   : サフィックス（VaultとPermissionsExが導入されている場合に置き換えられます）
+# %date     : 日付
+# %time     : 時刻
+# %msg      : 発言内容（Japanize変換された場合は、Japanize結果を含みます。）
+normalChatMessageFormat: '&f%prefix%username%suffix&a:&f %msg'
+
+# 通常チャット（非チャンネルチャット）で、カラーコード（&aや&bなど）を
+# 使用可能にするかどうか。falseに設定すると、カラーコードは変換されません。
+enableNormalChatColorCode: true
+
+
+
+# -------------------- Japanize変換設定 --------------------
+
+# ローマ字をかな文字や漢字に変換する設定。
+# none/kana/GoogleIME の3つのいずれかが設定可能。
+# none      : 変換なし。
+# kana      : かな変換のみ。
+# GoogleIME : かな変換したのち、GoogleIMEを使って漢字変換する。
+japanizeType: GoogleIME
+
+# かな変換や漢字変換時に、
+# 変換結果を元の発言内容と合わせて1行で表示するか、
+# 変換結果のみを2行目に表示するかを、設定する。
+# 1行表示の例：
+#     <ucchy> aiueo (あいうえお)
+# 2行表示の例：
+#     <ucchy> aiueo
+#     [JP] あいうえお
+japanizeDisplayLine: 1
+
+# japanizeDisplayLine が 1 のときの、表示フォーマットを設定する。
+# フォーマット設定には、下記のキーワードが使用できます。
+# %msg      : 元の発言内容
+# %japanize : Japanize変換された発言内容
+japanizeLine1Format: '%msg &6(%japanize)'
+
+# japanizeDisplayLine が 2 のときの、2行目の表示フォーマットを設定する。
+# フォーマット設定には、下記のキーワードが使用できます。
+# %msg      : 元の発言内容
+# %japanize : Japanize変換された発言内容
+japanizeLine2Format: '&6[JP] %japanize'
+
+# 発言に含まれているプレイヤー名を、Japanize変換から除外するかどうかを設定する。
+japanizeIgnorePlayerName: true
+
+# ノンジャパナイズマーカー。
+# これが発言の頭に入っている場合は、一時的にJapanize変換を実行しない。
+noneJapanizeMarker: '#'
+</pre>
+</p>
+
+
+
+<h2>ヒント - ユースケースごとの導入方法</h2>
+<h3>チャットの日本語化だけ使用したい場合</h3>
+<p>
+LunaChat.jar を plugins フォルダに導入するだけでOKです。
+好みに応じて、config.yml の japanizeType や japanizeDisplayLine を変更してください。
+また、チャンネルチャットが不要であれば、config.yml の enableChannelChat を false に変更してください。
+</p>
+
+<h2>dynmapのチャット表示にも、日本語化を表示したい場合</h2>
+<p>
+LunaChat.jar と dynmap.jar を plugins フォルダに導入するだけでOKです。
+</p>
+<img src="img/lunachat_with_dynmap.png" width="400" height="289" border="0">
+
+<h3>ひそひそ話しをするようなゲームで、範囲チャット（15ブロック範囲にしか届かないチャット）を使用したい場合</h3>
+<p>
+LunaChat.jar を plugins フォルダに導入した後、グローバルチャンネル、強制参加チャンネル（範囲）を設定します。
+<ol>
+	<li>LunaChat.jar を plugins フォルダに導入して CraftBukkit を起動します。</li>
+	<li>plugins/LunaChat/config.yml をエディタで開きます。</li>
+	<li>globalChannel の項目に、適当なグローバルチャンネル名を入れます。例）globalChannel: 'G'</li>
+	<li>forceJoinChannels の項目に、適当な範囲チャットチャンネル名を入れます。例）forceJoinChannels: ['R']</li>
+	<li>コンソールで ch reload を実行して、config.yml を再読み込みさせます。</li>
+	<li>適当なプレイヤーでサーバーに参加します。<br/>
+	　　このとき、チャンネル R が新規作成され、ログインしたプレイヤーがチャンネルモデレータに設定されます。</li>
+	<li>チャンネル R に15ブロックの範囲チャットを設定します。<br/>
+	　　ゲーム内で次のコマンドを実行してください。<br/>
+	　　/ch option broadcast=true range=15</li>
+	<li>8. 以上で設定は終わりです。<br/>
+	　　これ以降でサーバーに参加したプレイヤーは、チャンネル R がデフォルト発言先に設定され、<br/>
+	　　15ブロック範囲チャットに自動設定されます。<br/>
+	　　また、発言の頭に「!」をつけると、グローバルチャンネル G への発言をすることができます。</li>
+</ol>
+</p>
+
+<h3>グローバルチャンネルとワールドチャットチャンネルを用意して、ワールドごとにチャットを分けたい場合</h3>
+<p>
+LunaChat.jar を plugins フォルダに導入した後、グローバルチャンネル、強制参加チャンネル（ワールド範囲）を設定します。
+<ol>
+	<li>LunaChat.jar を plugins フォルダに導入して CraftBukkit を起動します。</li>
+	<li>plugins/LunaChat/config.yml をエディタで開きます。</li>
+	<li>globalChannel の項目に、適当なグローバルチャンネル名を入れます。例）globalChannel: 'G'</li>
+	<li>forceJoinChannels の項目に、適当な範囲チャットチャンネル名を入れます。例）forceJoinChannels: ['W']</li>
+	<li>コンソールで ch reload を実行して、config.yml を再読み込みさせます。</li>
+	<li>適当なプレイヤーでサーバーに参加します。<br/>
+	　　このとき、チャンネル W が新規作成され、ログインしたプレイヤーがチャンネルモデレータに設定されます。</li>
+	<li>チャンネル W にワールド範囲を設定します。<br/>
+	　　ゲーム内で次のコマンドを実行してください。<br/>
+	　　/ch option broadcast=true range=world</li>
+	<li>以上で設定は終わりです。<br/>
+	　　これ以降でサーバーに参加したプレイヤーは、チャンネル W がデフォルト発言先に設定され、<br/>
+	　　ワールド範囲チャットに自動設定されます。<br/>
+	　　また、発言の頭に「!」をつけると、グローバルチャンネル G への発言をすることができます。</li>
+</ol>
+</p>
+
+<h3>PermissionsEx + Vault を一緒に導入して、prefix や suffix を設定し、チャット欄の名前を装飾したい場合</h3>
+
+<p>
+1. まずは、PermissionsEx、Vault、LunaChat の最新版をダウンロードし、全て plugins フォルダに導入してください。<br/>
+2. PermissionsEx、Vault、LunaChat のコンフィグを生成させるために、CraftBukkitを一旦起動し、停止してください。<br/>
+3. まずは、プレイヤーに対して prefix と suffix を設定してみましょう。<br/>
+plugins/PermissionsEx/permissions.yml ファイルを開いて、次のように設定します。<br/>
+
+<pre>
+users:
+  ucchy:
+    prefix: '&a★&f'
+    suffix: '&b★'
+</pre>
+
+上記の例では、ucchy というプレイヤーに、prefix と suffix を設定しています。<br/>
+この状態で、ucchy が発言すると、次のようになります。<br/>
+
+<img src="img/prefix-test1.png" width="344" height="92" border="0">
+
+4. 次に、グループに対して prefix を設定してみましょう。<br/>
+plugins/PermissionsEx/permissions.yml ファイルを開いて、次のように設定します。<br/>
+
+<pre>
+groups:
+  admin:
+    permissions:
+    - minecraftのパーミション
+    options:
+      prefix: '&a[管理者]&f'
+      default: false
+  citizen:
+    options:
+      prefix: '&a[一般市民]&f'
+      default: true
+</pre>
+
+例えば、adminグループに所属するプレイヤーが発言すると、次のようになります。<br/>
+
+<img src="img/prefix-test2.png" width="355" height="102" border="0">
+</p>
+
+<h2>開発者向け情報</h2>
+<p>
+他のプラグインから、LunaChatのAPIを呼び出してLunaChatを操作することが可能です。詳しくは下記のURL先の技術情報を参照ください。<br/>
+https://github.com/ucchyocean/LunaChat/wiki/For-Developer---How-to-use-LunaChatAPI<br/>
+<br/>
+他のプラグインから、LunaChatの各種イベントのフックすることが可能です。詳しくは下記のURL先の技術情報を参照ください。<br/>
+https://github.com/ucchyocean/LunaChat/wiki/For-Developer---How-to-handle-LunaChat-events<br/>
+<br/>
+maven用リポジトリ記載例<br/>
+<pre>
+<repositories>
+  <repository>
+    <id>ucchy-github</id>
+    <name>ucchy github repository</name>
+    <url>https://raw.github.com/ucchyocean/mvn-repo/master</url>
+  </repository>
+</repositories>
+</pre>
+
+
+maven用dependency記載例
+<pre>
+<dependency>
+  <groupId>com.github.ucchyocean</groupId>
+  <artifactId>LunaChat</artifactId>
+  <version>2.8.9</version>
+</dependency>
+</pre>
+</p>
+
+
+<h2>ソースコード</h2>
+
+<p>
+ソースコードはGithubで管理しています。ライセンスは LGPLv3 を適用します。<br/>
+https://github.com/ucchyocean/LunaChat
+</p>
+
+<h2>謝辞</h2>
+
+<p>
+機能追加提案やデバッグを、Laica-Lunasys氏に実施していただきました。ありがとうございました。
+</p>
+
+      </div>
+    </main>
+
+  </body>
+</html>
+
