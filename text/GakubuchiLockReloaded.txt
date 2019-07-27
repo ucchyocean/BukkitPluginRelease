@@ -1,0 +1,171 @@
+額縁の保護プラグイン GakubuchiLockReloaded v1.4.1
+
+ダウンロード
+
+
+注意
+
+このプラグインは、CraftBukkit 1.7.8 以上で動作します。
+CraftBukkit 1.7.5 以前のバージョンでは正しく動作しませんので、ご注意ください。
+
+概要
+
+額縁を個人単位で保護して、中のアイテムを守るためのプラグインです。
+利用方法は、LWCに近いイメージなので、LWCをご利用の方には導入しやすいと思います。
+画像
+
+
+使い方
+
+GakubuchiLockReloaded.jar を plugins フォルダに入れて、CraftBukkitを起動してください。
+
+デフォルト設定では、額縁を設置すると、設置した人をオーナーとするロックが設定されます。
+オーナー以外の人は、額縁を破壊したり、中のアイテムを触ったり取り出したりすることができなくなります。
+ロックを削除するには、「/gremove」コマンドを使うか、額縁を破壊してください。
+
+
+コマンド
+
+コマンドは /gakubuchilock です。省略形で /gl が利用できます。
+また、いくつかのコマンドには別コマンドも定義されています。
+
+一般プレイヤー用コマンド
+?/gl info または /ginfo - 額縁のロック情報を参照します。コマンドを打った後に、額縁をパンチしてください。
+?/gl private または /gprivate - 額縁を新規ロックします。コマンドを打った後に、額縁をパンチしてください。
+?/gl remove または /gremove - 額縁のロック情報を削除します。コマンドを打った後に、額縁をパンチしてください。
+?/gl limits または /glimits - 自分の額縁ロック数と、ロック制限数を参照します。
+?/gl persist [lock|unlock|info|off] または /gpersist [lock|unlock|info|off] - 連続モードのオンオフを切り替えます。
+/gpersist lock : 連続ロックモードをオンにします。
+/gpersist unlock : 連続解除モードをオンにします。
+/gpersist info : 連続情報閲覧モードをオンにします。
+/gpresist off : 連続モードをオフにします。
+
+管理者用コマンド
+?/gl cleanup [world名] - 指定されたワールドにあるロックデータを全て削除します。ワールド名を省略すると、worldのデータを削除します。
+?/gl reload - データ（config.ymlとロック情報とメッセージ）を再読み込みします。
+
+
+パーミッション
+
+特に書いていないものは、全員が保持している権限です。
+
+?gakubuchilock.command - コマンド自体の使用権限
+?gakubuchilock.command.info - infoコマンドの使用権限
+?gakubuchilock.command.limits - limitsコマンドの使用権限
+?gakubuchilock.command.private - privateコマンドの使用権限
+?gakubuchilock.command.remove - removeコマンドの使用権限
+?gakubuchilock.command.persist - persistコマンドの使用権限
+?gakubuchilock.command.cleanup - cleaupコマンドの使用権限（デフォルトでOPが保持する権限です。）
+?gakubuchilock.command.reload - reloadコマンドの使用権限（デフォルトでOPが保持する権限です。）
+?gakubuchilock.entity.place - 額縁を新規に設置できる権限
+?gakubuchilock.entity.break - ロックされていない額縁を、剥がすことができる権限
+?gakubuchilock.entity.interact - ロックされていない額縁を、右クリックして操作することができる権限
+?gakubuchilock.entity.admin - ロックされた額縁を、所有者でなくても操作できる権限（デフォルトでOPが保持する権限です。）
+?gakubuchilock.entity.infinite-place - 額縁の設置個数制限があっても、無限に設置できる権限（デフォルトでOPが保持する権限です。）
+?gakubuchilock.command.* - 全てのコマンドの使用権限
+?gakubuchilock.entity.* - 全てのエンティティの操作権限
+?gakubuchilock.* - GakubuchiLockの全てのパーミッション
+
+
+コンフィグ
+
+コンフィグは、plugins/GakubuchiLockReloaded/config.yml に出力されます。
+編集して保存したあと、/gl reload またはサーバーリロードで読み込みして反映してください。
+
+コード: 全て選択
+# GakubuchiLockReloaded v1.4.1
+# @author     ucchy
+# @license    LGPLv3
+# @copyright  Copyright ucchy 2014
+
+# メッセージの言語
+lang: ja
+
+# 1人あたりのItemFrameの設置数上限です。-1で無限大に設定することができます。
+# パーミッション "gakubuchilock.entity.infinite-place" を持っている人や、OPは、
+# この制限を受けずに無制限に設置可能です。
+# また、PermissionsExのグループやユーザーのoptionsに、
+#   itemFrameLimit: 10
+# のように指定すると、そのグループやユーザーのみ、設置数上限を10に変更することができます。
+itemFrameLimit: 50
+
+# 壁のみが壊されていて、ブロックアップデートが発生したときの、対応モード
+# REGEN_STONE -> 石で壁を再生します。ロック情報は維持します。
+# REGEN_STONE_NO_DROP -> 石で壁を再生します。破壊された壁はアイテムをドロップしません。ロック情報は維持します。
+# INVINCIBLE -> ロックされた額縁が貼ってある壁は、どんなことをしても壊れなくなります。ロック情報は維持します。
+# EXTINCTION -> 壁を再生せず、額縁および額縁の中身を消去し、ドロップもしないようにします。ロック情報は削除されます。
+# ITEM_DROP -> 壁を再生せず、額縁および額縁の中身はアイテムとしてドロップします。ロック情報は削除されます。
+wallMode: REGEN_STONE_NO_DROP
+
+# 額縁を設置した時に、自動的にロックがかかるかどうかを設定することができます。
+autoLock: true
+
+# サーバー起動時に、ロックデータを調査して、既に額縁が無い場合はロックデータをクリーンアップします。
+# 正の整数を指定した場合は、サーバー起動から指定時間（分）後に、クリーンアップ処理が実行されます。
+# -1 が指定された場合は、クリーンアップ処理を実行しません。
+cleanupTaskDelay: -1
+
+# クリーンアップが実行されたときに、削除されたロック情報をコンソールログに表示します。
+cleanupTaskLog: true
+
+
+
+
+
+PermissionsExで、設置可能な額物の上限個数を設定する
+
+PermissionsExに、グループやユーザーごとに額物の設置制限個数を指定することができます。
+GakubuchiLockReloaded と PermissionsEx を一緒に導入した状態で、permissions.yml ファイルの option に、itemFrameLimit を足して、数値を設定してください。
+PermissionsExに制限が設定されている場合は、GakubuchiLockReloaded の config.yml の itemFrameLimit: よりも優先されます。
+設定例）
+コード: 全て選択
+groups:
+  default:
+    options:
+      default: true
+      itemFrameLimit: 3
+    permissions:
+    - modifyworld.*
+    - -gakubuchilock.entity.interact
+  citizen:
+    options:
+      itemFrameLimit: 300
+  admin:
+    options:
+      itemFrameLimit: -1
+
+
+
+
+ご利用上の注意
+
+ロック情報の保持は、データの移植性や設置性を考慮して、（sqliteではなく）フラットファイルで行われます。
+人数の多いサーバーでは、データ検索の実行に時間がかかるかも知れませんが、その場合は1人あたりの設置制限を加えることでロック情報を一定値以下に制限してください。
+
+
+ソースコードとライセンス
+
+ソースコードはGithubで管理しています。
+https://github.com/ucchyocean/GakubuchiLockReloaded
+ライセンスは LPGLv3 を適用します。ライセンス条文は下記を参照してください。
+http://sourceforge.jp/magazine/07/09/05/017211
+
+
+更新履歴
+
+?v1.4.1 - ロックデータのクリーンアップ処理が、ロードされていないチャンクにある額縁のロックデータを消去するとの報告をいただいたので、クリーンアップ処理をデフォルトで動作しないように変更しました。
+?v1.4.0 - ロックデータのクリーンアップについて、設定変更できる機能を追加しました。
+?v1.3.0 - CB1.9で正しくロードできない不具合を修正しました。
+?v1.2.1 - gakubuchilock.entity.interact 権限が無くても、ロックされていない額縁から中身が取り出されてしまう不具合を修正しました。
+?v1.2.0 - PermissionsEx連携機能の追加しました。額縁や額縁の貼られた壁がピストンで押されなくなるように保護する機能を追加しました。WallMode設定に INVINCIBLE と REGEN_STONE_NO_DROP を追加しました。新しい権限 gakubuchilock.entity.interact を追加しました。
+?v1.1.0 - 連続モードコマンド /gpersist を追加しました。
+?v1.0.5 - ロックされた額縁に雷があたると、NullPointerExceptionが記録される不具合を修正しました。
+?v1.0.4 - 額縁の設置個数制限があっても、無限に設置できる権限（gakubuchilock.entity.infinite-place）を追加しました。
+?v1.0.3 - MultiVerseやMultiWorldなど、複数ワールド管理プラグインと同居しているときに、正しくロック情報がロードされない問題を修正しました。
+?v1.0.2 - ビルドしたBukkitのバージョンに誤りがあったため、CraftBukkit 1.7.9 以前で動作させるとエラーになっていた問題を修正しました。
+?v1.0.1 - REGEN_STONEモードを設定しているときに、ロックされている額縁をピストンなどで押し出そうとすると、稀に壁が石に変わってしまう不具合を修正しました。
+?v1.0.0 - 公開開始バージョン
+
+その他
+
+もし不具合や機能追加要望などありましたら、このトピックで扱いますので、返信にてご連絡くださいませ。

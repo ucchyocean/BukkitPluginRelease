@@ -1,0 +1,128 @@
+[Bukkit 1.8 - 1.11.2] リバーシ - ReversiLab v1.1.2
+
+投稿記事by ucchy ? 2016年1月17日(日) 04:25 
+
+ダウンロード
+
+
+概要
+
+あなたのサーバーに、リバーシで遊ぶ機能を追加します。
+画像
+
+?ゲームフィールドは、別のワールド「ReversiLab」の中に生成されるため、既存のワールドを壊しません。
+?ゲーム開始時の持ち物や経験値は一旦預けられ、ゲーム終了時に全て返却されます。
+?他のプレイヤーと対戦するふたりプレイモードと、CPUと対戦するひとりプレイモードが遊べます。
+?ランキング機能を備えています。みんなで勝負して、勝ち数を稼ごう！！
+
+
+使い方・遊び方
+
+ReversiLab.jar を plugins フォルダに入れて、CraftBukkitを起動してください。
+「/rev versus (対戦したい相手プレイヤー名)」を実行すると、相手のプレイヤーに対戦リクエストが送られます。
+対戦相手がリクエストを受ける（/rev accept を実行する）と、ゲーム用フィールドへ転送されて、ゲームが開始します。
+
+
+コマンド
+
+コマンドは /reversi です。省略形として、/rev も使用できます。
+?/rev single [easy|normal|hard] - ひとりプレイモードを開始します。
+?/rev versus (PlayerName) - 指定したプレイヤーに、対戦リクエストを送信します。
+?/rev accept - 対戦リクエストを受けます。
+?/rev deny - 対戦リクエストを拒否します。
+?/rev cancel - 対戦をキャンセルします。対戦リクエストを送っているときや、対戦中に相手がオフラインのままになってしまった場合に、キャンセルすることができます。
+?/rev resign - 対戦を投了します。singleやversusで対戦中に /rev resign で投了すると、相手に勝ちを譲り、即座に対戦を終了します。
+?/rev spectator (PlayerName) - 指定したプレイヤーの対戦を観戦します。もう一度コマンドを実行すると退出します。
+?/rev rank [win|lose|played|ratio] [versus|easy|normal|hard] - ランキングデータを参照します。
+?/rev reload - config.ymlとmessages_*.ymlを再読み込みします。
+
+
+パーミッション
+
+?reversilab.command - /rev コマンド自体の実行権限です。
+?reversilab.single - /rev singleコマンドの実行権限です。
+?reversilab.versus - /rev versus コマンドの実行権限です。
+?reversilab.accept - /rev acceptコマンドの実行権限です。
+?reversilab.deny - /rev denyコマンドの実行権限です。
+?reversilab.cancel - /rev cancelコマンドの実行権限です。
+?reversilab.resign - /rev resign コマンドの実行権限です。
+?reversilab.spectator - /rev spectatorコマンドの実行権限です。
+?reversilab.rank - /rev rankコマンドの実行権限です。
+?reversilab.reload - /rev reloadコマンドの実行権限です。OPのみデフォルトで権限を持っています。
+?reversilab.* - 上記の8つの権限をまとめた権限です。
+
+
+コンフィグ
+
+config.yml
+コード: 全て選択
+# ReversiLab v1.1.2
+# @author     ucchy
+# @license    LGPLv3
+# @copyright  Copyright ucchy 2016
+
+
+# メッセージの言語（ja = 日本語、en = 英語、zh = 簡体字中国語）
+lang: 'ja'
+
+# 対戦の開始と終了を、サーバー全体メッセージで通知するかどうか
+broadcastSessionStartEnd: true
+
+# ゲームの開始を禁止するワールド。
+# 例えば、prohibitWorlds: ['sozai']  のように指定すると、sozaiワールドではゲームを開始できなくなります。
+prohibitWorlds: []
+
+# ゲーム終了してから、テレポートして元の場所に戻るまでの、待ち時間（秒）
+sessionEndWaitSeconds: 15
+
+# -------------------- 掛け金報酬設定 --------------------
+
+# 掛け金や賞金の機能を使用するかどうか。
+# NONE -> 使用しない
+# ITEM -> 掛け金や報酬をアイテムで設定する
+# ECO -> 掛け金や報酬を経済プラグインのお金で設定する。
+#        Vaultと、連携可能な経済プラグインの導入が必要です。
+betRewardType: NONE
+
+# 掛けアイテム、報酬アイテムの設定
+versusBetItem: DIAMOND
+versusRewardItem: DIAMOND-2
+easyBetItem: WOOD-2
+easyRewardItem: WOOD-5
+normalBetItem: IRON_INGOT-2
+normalRewardItem: IRON_INGOT-5
+hardBetItem: DIAMOND-2
+hardRewardItem: DIAMOND-5
+
+# 掛け金、報酬金の設定
+versusBetEco: 10
+versusRewardEco: 20
+easyBetEco: 3
+easyRewardEco: 7
+normalBetEco: 5
+normalRewardEco: 12
+hardBetEco: 8
+hardRewardEco: 19
+
+
+
+
+
+
+
+
+
+
+
+ソースコードとライセンス
+
+ソースコードはGithubで管理しています。
+https://github.com/ucchyocean/ReversiLab
+ライセンスは LPGLv3 を適用します。ライセンス条文は下記を参照してください。
+http://sourceforge.jp/magazine/07/09/05/017211
+
+
+その他
+
+本プラグインは、BukkitDevでも同時進行で公開・更新を行っています。
+http://dev.bukkit.org/bukkit-plugins/reversilab/

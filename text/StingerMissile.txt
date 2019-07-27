@@ -1,0 +1,174 @@
+スティンガーミサイル StingerMissile v1.3.0
+
+投稿記事by ucchy ? 2014年8月11日(月) 02:12 
+
+Stinger Missile v1.3.0
+
+画像
+
+最新版 v1.3.0 のダウンロード
+
+概要
+
+このプラグインは、アイテム（デフォルトではエンダーパール）を追尾ミサイルのように打ち出すミサイルランチャーを追加します。
+
+ミサイルランチャーを持った状態で右クリックし続け、MOBや他プレイヤーにカーソルを合わせると、5体までロックオンします（最大ロックオン数は、config.ymlで変更可能です）。
+右クリックを離すと、ミサイルを打ち出します。ミサイルは、ロックオン対象に追尾します。
+
+画像
+
+銃を使ったPVPに、ちょっと違う動作をする武器を追加したい時や、
+通常のサバイバルで、一風変わった遊び方をしたい時に（対エンダードラゴンで使うと楽しいですよ！）
+導入してみてくださいね。
+
+
+プラグインの導入方法
+
+CraftBukkit 1.7.2-R0.3 以上のバージョンでしか動作しません。ご注意ください。
+
+CraftBukkitのpluginsフォルダに StingerMissile.jar を配置して、CraftBukkitを起動してください。
+
+
+使い方
+
+ミサイルランチャーの取得方法は2つあります。
+
+?コマンドで取得する場合は、下記のコマンドを実行してください。いずれも、OPはデフォルトで実行可能です。
+/stinger get - ランチャーを自分のインベントリに取得します。
+（パーミッションノード：stinger.get）
+/stinger give (player) - 指定したプレイヤーにランチャーを与えます。
+（パーミッションノード：stinger.give）
+?金のクワと、エンダーパールを組み合わせてクラフトすることでも、作成可能です。
+画像
+
+
+コマンド
+
+コマンドは「/stinger」です。
+?/stinger get - 新しいスティンガーを取得します。
+?/stinger give (player) - 新しいスティンガーを指定したプレイヤーに与えます。
+?/stinger reload - 設定ファイル config.yml を再読み込みします。
+
+パーミッションノード
+
+?stinger.command - /stinger コマンドを実行できるパーミッションノードです。全てのプレイヤーに権限がデフォルトで与えられています（ただし、そのサブコマンドの実行は下記のパーミッションに従います）。
+?stinger.get - /stinger get コマンドを実行できるパーミッションノードです。OPに権限がデフォルトで与えられています。
+?stinger.give - /stinger give コマンドを実行できるパーミッションノードです。OPに権限がデフォルトで与えられています。
+?stinger.reload - /stinger reload コマンドを実行できるパーミッションノードです。OPに権限がデフォルトで与えられています。
+?stinger.action - スティンガーを使用できるパーミッションノードです。この権現が無い場合、ミサイルランチャーを右クリックしても何も起こりません。全てのプレイヤーに権限がデフォルトで与えられています。
+?stinger.* - 上記の権限を全てまとめて指定したノードです。
+
+
+コンフィグ
+
+コンフィグは、plugins/StingerMissile/config.yml に生成されます。
+コード: 全て選択
+# StingerMissile v1.3.0
+# @author     ucchy
+# @license    LGPLv3
+# @copyright  Copyright ucchy 2014
+
+# ------------------------- 設定 -------------------------
+
+# 右クリックでターゲッティングしているときの、ターゲット取得最大距離
+# 大きくすると、遠いプレイヤーも取得される。最大でも100以下にすること。
+targetingRange: 40
+
+# 右クリックでターゲッティングしているときの、ターゲット取得範囲(横方向)
+# 大きくすると、ターゲットから離れたプレイヤーもターゲッティングされる。
+targetingWidth: 2.5
+
+# 同時にターゲット可能な対象数
+maxTargetNum: 5
+
+# ミサイルの加速スピード
+missileAccelSpeed: 0.4
+
+# ミサイルの最大スピード
+missileMaxSpeed: 2.0
+
+# 弾がヒットしたときに発生する爆風の強さ。
+explosionPower: 3
+
+# 弾がヒットしたときに対象に与える基本ダメージ量。
+# 基本ダメージ量＋爆発によるダメージ量＝被弾した時の実際のダメージ量
+explosionDamage: 3.0
+
+# ミサイルランチャーとして使用するアイテムの素材
+# 右クリックで使用することができる道具を指定してください。
+launcherMaterial: 'GOLD_HOE'
+
+# ミサイルランチャーのアイテム表示名
+launcherDisplayName: '&9&lStinger'
+
+# 無限ミサイルモード
+# true :  ミサイルが手持ちに無くても、ランチャーのみでミサイルを無限に発射できます。
+#         PVPサーバー向け。
+# false : 手持ちにミサイル（普通のエンダーパール）が必要です。
+#         1発打つごとにエンダーパールを1個消費します。サバイバルサーバー向け。
+infiniteMissileMode: true
+
+# MOBへのターゲッティング有効無効を切り替えする
+targetingToMob: true
+
+# プレイヤーへのターゲッティング有効無効を切り替えする
+targetingToPlayer: true
+
+# トロッコやボートへのターゲッティング有効無効を切り替えする
+targetingToVehicle: true
+
+# エンダークリスタルへのターゲッティング有効無効を切り替えする
+targetingToEnderCrystal: true
+
+# ミサイルを打ち出す時に消費する素材。
+# infiniteMissileMode が true の場合は、この設定は無視されます。
+# 例えば、BREADを指定すると、ミサイルを打ち出すときにパンを消費します。
+# （ただし、実際にミサイルとして飛ぶのはエンダーパールです。）
+consumeMissileMaterial: 'ENDER_PEARL'
+
+# クリックしながらカーソルを合わせてロックオンするときに、
+# ロックオンを実行するまでにかかる遅延サイクルを設定します。
+# 1サイクルで5ticksです。
+# 例えば lockonDelayCycle: 4  を設定すると、クリックしてカーソルを合わせてから
+# 1秒後に対象がロックオンされます。
+lockonDelayCycle: 0
+
+# ミサイルが着弾した時に、爆発範囲のブロックに着火するかどうかを設定します。
+setFire: false
+
+# ミサイルが着弾した時に、爆発範囲のブロックを破壊するかどうかを設定します。
+breakBlocks: false
+
+# ------------------------- メッセージ -------------------------
+
+messageTargetCandidate: '&7ターゲット候補: %name,  距離: %distance'
+messageTargetted: '&6ターゲット %name. (%num/%max)'
+messageEmptyMissile: '&cミサイル(%material)が無い！'
+
+# 下記のメッセージは、Bukkit 1.8 以降でのみ表示されます。
+messageWarning: '&c&n<<WARNING>>'
+messageWarningMissileInbound: '&c&n<<WARNING ミサイル接近中>>'
+
+# ------------------------- サウンド -------------------------
+
+soundLockonDelay: 'NOTE_PLING-0.5-1'
+soundLockonTarget: 'ORB_PICKUP-1-1'
+soundNoneTarget: 'IRONGOLEM_THROW-1-1.5'
+soundLaunching: 'NOTE_BASS_DRUM-1-1,SILVERFISH_HIT-0.5-0,CHEST_CLOSE-1-1.8'
+soundWarning: 'NOTE_PLING-1-0.5,ZOMBIE_UNFECT-0.7-2'
+soundWarningMissileInbound: 'NOTE_PLING-1-0.5,ZOMBIE_UNFECT-0.7-2'
+
+
+
+
+
+ソースコード
+
+ソースコードはGithubで管理しています。ライセンスは LGPLv3 を適用します。
+https://github.com/ucchyocean/StingerMissile
+
+
+
+その他
+
+もし不具合や機能追加要望などありましたら、このトピックで扱いますので、返信にてご連絡くださいませ。

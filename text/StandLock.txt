@@ -1,0 +1,179 @@
+アーマースタンドの保護プラグイン StandLock v1.3.0
+
+ダウンロード
+
+
+注意
+
+このプラグインは、CraftBukkit 1.8 以上で動作します。
+CraftBukkit 1.7.10 以前のバージョンでは正しく動作しませんので、ご注意ください。
+
+概要
+
+アーマースタンドを個人単位で保護して、中のアイテムを守るためのプラグインです。
+利用方法は、LWCに近いイメージなので、LWCをご利用の方には導入しやすいと思います。
+画像
+
+
+使い方
+
+StandLock.jar を plugins フォルダに入れて、CraftBukkitを起動してください。
+
+デフォルト設定では、アーマースタンドを設置すると、設置した人をオーナーとするロックが設定されます。
+オーナー以外の人は、アーマースタンドを破壊したり、中のアイテムを触ったり取り出したりすることができなくなります。
+ロックを削除するには、「/sremove」コマンドを使うか、アーマースタンドを破壊してください。
+
+
+コマンド
+
+コマンドは /standlock です。省略形で /sl が利用できます。
+また、いくつかのコマンドには別コマンドも定義されています。
+
+一般プレイヤー用コマンド
+?/sl info または /sinfo - アーマースタンドのロック情報を参照します。コマンドを打った後に、アーマースタンドをパンチしてください。
+?/sl private または /sprivate - アーマースタンドを新規ロックします。コマンドを打った後に、アーマースタンドをパンチしてください。
+?/sl remove または /sremove - アーマースタンドのロック情報を削除します。コマンドを打った後に、アーマースタンドをパンチしてください。
+?/sl limits または /slimits - 自分のアーマースタンドロック数と、ロック制限数を参照します。
+?/sl persist [lock|unlock|info|off] または /spersist [lock|unlock|info|off] - 連続モードのオンオフを切り替えます。
+/spersist lock : 連続ロックモードをオンにします。
+/spersist unlock : 連続解除モードをオンにします。
+/spersist info : 連続情報閲覧モードをオンにします。
+/spresist off : 連続モードをオフにします。
+
+管理者用コマンド
+?/sl cleanup - 指定されたワールドにあるロックデータを全て削除します。ワールド名を省略すると、worldのデータを削除します。
+?/sl reload - データ（config.ymlとロック情報とメッセージ）を再読み込みします。
+
+
+パーミッション
+
+特に書いていないものは、全員が保持している権限です。
+
+?standlock.command - コマンド自体の使用権限
+?standlock.command.info - infoコマンドの使用権限
+?standlock.command.limits - limitsコマンドの使用権限
+?standlock.command.private - privateコマンドの使用権限
+?standlock.command.remove - removeコマンドの使用権限
+?standlock.command.persist - persistコマンドの使用権限
+?standlock.command.cleanup - cleanupコマンドの使用権限（デフォルトでOPが保持する権限です。）
+?standlock.command.reload - reloadコマンドの使用権限（デフォルトでOPが保持する権限です。）
+?standlock.entity.place - アーマースタンドを新規に設置できる権限
+?standlock.entity.break - ロックされていないアーマースタンドを破壊することができる権限
+?standlock.entity.interact - ロックされていないアーマースタンドを操作（防具を入れる・出す）することができる権限
+?standlock.entity.admin - ロックされたアーマースタンドを、所有者でなくても操作できる権限（デフォルトでOPが保持する権限です。）
+?standlock.entity.infinite-place - アーマースタンドの設置個数制限があっても、無限に設置できる権限（デフォルトでOPが保持する権限です。）
+?standlock.command.* - 全てのコマンドの使用権限
+?standlock.entity.* - 全てのエンティティの操作権限
+?standlock.* - StandLockの全てのパーミッション
+
+
+コンフィグ
+
+コンフィグは、plugins/StandLock/config.yml に出力されます。
+編集して保存したあと、/sl reload またはサーバーリロードで読み込みして反映してください。
+
+コード: 全て選択
+# StandLock v1.3.0
+# @author     ucchy
+# @license    LGPLv3
+# @copyright  Copyright ucchy 2015
+
+# メッセージの言語
+lang: ja
+
+# 1人あたりのArmorStandの設置数上限です。-1で無限大に設定することができます。
+# パーミッション "standlock.entity.infinite-place" を持っている人や、OPは、
+# この制限を受けずに無制限に設置可能です。
+# また、PermissionsExのグループやユーザーのoptionsに、
+#   armorStandLimit: 10
+# のように指定すると、そのグループやユーザーのみ、設置数上限を10に変更することができます。
+armorStandLimit: 50
+
+# スタンドを設置した時に、自動的にロックがかかるかどうかを設定することができます。
+autoLock: true
+
+# サーバー起動時に、ロックデータを調査して、既に額縁が無い場合はロックデータをクリーンアップします。
+# 正の整数を指定した場合は、サーバー起動から指定時間（分）後に、クリーンアップ処理が実行されます。
+# -1 が指定された場合は、クリーンアップ処理を実行しません。
+cleanupTaskDelay: -1
+
+# クリーンアップが実行されたときに、削除されたロック情報をコンソールログに表示します。
+cleanupTaskLog: true
+
+# ArmorStand Editor が一緒に動作しているときに、StandLockのロックデータに従って
+# アーマースタンドを編集できるようにするかどうかを指定します。
+# 注意：この設定は、/sl reload コマンドでは適用されません。
+#       サーバーをreloadして、設定を反映してください。
+cooperateWithArmorStandEditor: true
+
+
+
+
+
+PermissionsExで、設置可能なアーマースタンドの上限個数を設定する
+
+PermissionsExに、グループやユーザーごとにアーマースタンドの設置制限個数を指定することができます。
+StandLock と PermissionsEx を一緒に導入した状態で、permissions.yml ファイルの option に、armorStandLimit を足して、数値を設定してください。
+PermissionsExに制限が設定されている場合は、StandLock の config.yml の armorStandLimit: よりも優先されます。
+設定例）
+コード: 全て選択
+groups:
+  default:
+    options:
+      default: true
+      armorStandLimit: 3
+    permissions:
+    - modifyworld.*
+    - -standlock.entity.interact
+  citizen:
+    options:
+      armorStandLimit: 300
+  admin:
+    options:
+      armorStandLimit: -1
+
+
+
+
+ご利用上の注意
+
+?ロック情報の保持は、データの移植性や設置性を考慮して、（sqliteではなく）フラットファイルで行われます。
+人数の多いサーバーでは、データ検索の実行に時間がかかるかも知れませんが、その場合は1人あたりの設置制限を加えることでロック情報を一定値以下に制限してください。
+?ロックがかかったアーマースタンドは、ロックがかかった状態で動いたり重なったりすることを防ぐため、浮遊状態になり、ピストンで押すことができなくなったりします。
+もし使いにくいとか改善してほしいなどのご意見ありましたら、お知らせください。私もいろいろ対策を考えてみますね。
+
+ソースコードとライセンス
+
+ソースコードはGithubで管理しています。
+https://github.com/ucchyocean/StandLock
+ライセンスは LPGLv3 を適用します。ライセンス条文は下記を参照してください。
+http://sourceforge.jp/magazine/07/09/05/017211
+
+
+更新履歴
+
+?v1.3.0 - 機能修正
+issue #13 - ArmorStand Editor との連携を削除
+?v1.2.0 - 機能追加
+issue #12 - ArmorStand Editor との連携ができるようにしてほしい 
+?v1.1.1 - 不具合修正
+issue #11 - ワールド起動時に、ロードされていないチャンクにあるロックデータが削除されてしまう
+?v1.1.0 - 機能改良
+issue #10 - ロックデータのクリーンアップを設定できるようにする。
+?v1.0.1 - 機能改良
+issue #9 - CB1.9で、ロックされたアーマースタンドに非ロック者が矢を打つと、反射されるので、反射させずに削除してほしい 
+?v1.0.0 - 正式版。Windows環境の CraftBukkit v1.9 で動作しない不具合を修正。
+?v0.1.1 - 機能改良
+issue #7 - ロックされていないアーマースタンドを操作する権限を追加する
+?v0.1.0 - 不具合修正＆機能改良
+issue #1 - 設定でautoLockがtrueでもクリエで設置すると自動ロックがかからない
+issue #2 - ピストンで直接スタンドを押しだすとスタンドが動く 
+issue #3 - /sl infoでの情報確認時にスタンドをロックした日付も見れるようにする
+issue #4 - 設置上限数をPermissionsExのグループごとに任意の個数を設定できるようにする
+issue #5 - Bukkit v1.7.10 以前のバージョンで動作させたときに、プラグインが動かないようにしてほしい
+issue #6 - 設置上限数を超えて設置しようとしたときに、設置がキャンセルされたのに手持ちのアイテムが1つ減る
+?v0.0.2 - 公開開始バージョン
+
+その他
+
+もし不具合や機能追加要望などありましたら、このトピックで扱いますので、返信にてご連絡くださいませ。

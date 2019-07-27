@@ -1,0 +1,70 @@
+Sidebar Clock v1.2.0
+
+ダウンロード
+
+サーバーに参加しているクライアント全員の画面右側に、現在の日付と時刻を表示します。
+表示されるのは、サーバー側の時刻です。
+
+
+2015-10-21_04.01.07.png
+
+使い方
+
+plugins フォルダに、SidebarClock.jar を入れて、CraftBukkit を起動してください。
+
+追記： 導入した後に、プラグインを抜くと、画面に時計の表示が残ったままになります。
+CraftBukkit を停止した状態で、「world\data\scoreboard.dat」を削除することで、時計の表示が消えます。
+
+
+
+コンフィグ
+
+コンフィグで、タイムゾーンや表示形式を変更することができます。
+
+コード: 全て選択
+# SidebarClock v1.2.0
+# @author     ucchy
+# @license    LGPLv3
+# @copyright  Copyright ucchy 2015
+
+
+# サイドバーのタイトル部分のフォーマット。指定できる文字列の説明は、こちらを参照ください。
+# http://docs.oracle.com/javase/jp/6/api/java/text/SimpleDateFormat.html
+titleFormat: 'M月d日(E)'
+
+# サイドバーの項目部分のフォーマット。
+itemFormat: 'HH:mm:'
+
+# 表示時刻のタイムゾーン。指定できる文字列の一覧は、こちらなどを参照ください。
+# http://lab.hidetake.org/util/timezones
+# 例えば、ロンドン時間を設定したい場合は、
+# timezone: 'Europe/London' と指定してください。
+timezone: 'Asia/Tokyo'
+
+
+
+
+
+コマンド
+
+コマンドは /sidebarclock です。エイリアスで /sc または /clock も利用できます。
+コマンドのパーミッションは sidebarclock.command です。OPにはデフォルトで権限が与えられています。
+?/clock reload - 設定ファイルを再読み込みします。
+
+
+Q&A
+
+?Q. 分と秒の間が、やけに離れていませんか？
+A. 仕様です！！
+
+
+
+ソースコード
+
+ソースコードはGithubで管理しています。ライセンスは GPLv3 を適用します。
+https://github.com/ucchyocean/SidebarClock
+
+
+そのほか
+
+もし不具合や機能追加要望などありましたら、このトピックで扱いますので、返信にてご連絡くださいませ。

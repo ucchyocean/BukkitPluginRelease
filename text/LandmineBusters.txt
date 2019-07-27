@@ -1,0 +1,105 @@
+地雷探知ミニゲーム LandmineBusters v1.1.0
+
+ダウンロード
+
+概要
+
+地雷探知ミニゲームを追加するプラグインです。
+ゲームフィールド上で地雷レーダーの情報を頼りに、全ての地雷の上にレッドストーントーチを立ててください。
+画像
+
+?ゲームフィールドは、別のワールド「LandmineBusters」の中に生成されるため、既存のワールドを壊しません。
+?ゲーム開始時の持ち物や経験値は一旦預けられ、ゲーム終了時に全て返却されます。
+?難易度は、easy、normal、hardの3種類から選択できます。マップのサイズや地雷の個数は、コンフィグでカスタマイズ可能です。
+?スコアランキング機能を備えています。みんなでタイムアタックしよう！！
+
+画像
+
+画像
+
+
+使い方
+
+LandmineBusters.jar を plugins フォルダに入れて、CraftBukkitを起動してください。
+「/lb start」を実行すると、ゲーム用フィールドへ転送されて、ゲームが開始します。
+
+
+コマンド
+
+コマンドは /landminebusters です。省略形として、/lb も使用できます。
+?/lb start [easy|normal|hard] - 新しいゲームを開始します。難易度を省略した場合は、normalで開始します。
+?/lb cancel - 現在のゲームをキャンセルします。
+?/lb rank [easy|normal|hard] [max] - スコアランキングを参照します。
+?/lb reload - config.ymlを再読み込みします。
+
+
+パーミッション
+
+?LandmineBusters.command - /lb コマンド自体の実行権限です。
+?LandmineBusters.start - /lb start コマンドの実行権限です。
+?LandmineBusters.rank - /lb rank コマンドの実行権限です。
+?LandmineBusters.reload - /lb reload コマンドの実行権限です。OPのみデフォルトで権限を持っています。
+?LandmineBusters.* - 上記の4つの権限をまとめた権限です。
+
+
+コンフィグ
+
+config.yml
+コード: 全て選択
+# LandmineBusters v1.1.0
+# @author     ucchy
+# @license    LGPLv3
+# @copyright  Copyright ucchy 2015
+
+# メッセージ言語
+lang: ja
+
+# 難易度調節です。easyとnormalとhardを定義できます。
+# size -> フィールドの広さ（1辺の長さ）
+# mine -> 埋まっている地雷の個数
+difficulty:
+  easy:
+    size: 10
+    mine: 5
+  normal:
+    size: 12
+    mine: 12
+  hard:
+    size: 15
+    mine: 30
+
+# 開始時の遅延時間（秒）です。不正防止にご利用ください。
+# 不要な場合は、0を指定してください。
+startDelay: 5
+
+# ゲームの開始と終了を、サーバー全体にアナウンスするかどうかを設定できます。
+announce: true
+
+# ゲームオーバー時のエフェクトの種類。
+# BOMB: 爆発します。結構心臓に悪いです。
+# FIREWORK: 花火を爆発させます。
+# NONE: エフェクト無しにします。
+gameoverEffect: FIREWORK
+
+
+
+
+
+
+
+
+
+
+
+ソースコードとライセンス
+
+ソースコードはGithubで管理しています。
+https://github.com/ucchyocean/LandmineBusters
+ライセンスは LPGLv3 を適用します。ライセンス条文は下記を参照してください。
+http://sourceforge.jp/magazine/07/09/05/017211
+
+
+
+その他
+
+もし不具合や機能追加要望などありましたら、このトピックで扱いますので、返信にてご連絡くださいませ。
