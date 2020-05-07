@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>WireRodの使い方</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    * {
+      font-family: "メイリオ", "Meiryo UI", "MS UI Gothic", "ヒラギノ角ゴシック";
+      background-color: #E6E6E6;
+    }
+    </style>
+  </head>
+  <body>
+    <main role="main">
+      <div class="container">
+
+
+        <h1 class="mt-5">WireRodの使い方</h1>
+
+<h2>概要</h2>
+
+<p>
+ワイヤーを射出し、そのワイヤーに向かって高速で飛び出すことができるプラグインです。<br/>
+WireRodを持って、ワイヤーをひっかけたい対象を右クリックすると、ターゲット先のブロックやMOBやプレイヤーに向かって針が飛び、その状態で右クリックすると針の方向に向かって飛び出します。<br/>
+</p>
+
+<h2>使い方</h2>
+
+<p>
+WireRod.jar を plugins フォルダに入れて、CraftBukkitを起動してください。<br/>
+<br/>
+「/wr get」を実行すると、WireRodが取得されます。<br/>
+「/wr give (player)」を実行して、WireRodを指定したプレイヤーに与えることも可能です。<br/>
+鉄インゴット3つと糸2つを、下の図のように並べることでも、WireRodを作成することが可能です。 <br/>
+<br/>
+WireRodを右クリックするとターゲット先のブロックやMOBやプレイヤーに向かって針が飛びます。<br/>
+有効距離は30マスです。ターゲット先のブロック・MOBが31マス以上離れていたり、何も無かったりした場合は、「too far!」と表示されて針が飛びません。<br/>
+針が飛んだ状態で、再度右クリックすると、針に向かって飛び出します。針との距離が遠ければ、より速く飛び出すことができます。<br/>
+</p>
+
+<h2>コマンド</h2>
+
+<p>
+コマンドは /wirerod です。省略形 /wr も利用可能です。
+<ul>
+	<li>/wr get [level] - 新しいWireRodを取得します。レベル（数字で1～20）を指定すると、WireRodの強さを設定することができます。</li>
+	<li>/wr give (player) [level] - 新しいwirerodを、指定した相手に与えます。</li>
+	<li>/wr reload - 本プラグインのコンフィグデータを再読み込みします。</li>
+</ul>
+</p>
+
+<h2>パーミッション</h2>
+
+<p>
+<ul>
+	<li>wirerod.action - WireRodを利用するための権限です。全てのプレイヤーが最初から権限を持っています。
+	<li>wirerod.get - /wr get コマンドの実行権限です。全てのプレイヤーが最初から権限を持っています。
+	<li>wirerod.give - /wr give コマンドの実行権限です。OPは最初から権限を持っています。
+	<li>wirerod.reload - /wr reload コマンドの実行権限です。OPは最初から権限を持っています。
+	<li>wirerod.* - 上記の4つの権限をまとめた権限です。
+</ul>
+</p>
+
+<h2>コンフィグ</h2>
+<p>
+<pre>
+# WireRod v3.1.0
+# @author     ucchy
+# @license    LGPLv3
+# @copyright  Copyright ucchy 2013-2014
+
+# /wr get コマンドで取得される、WireRodのデフォルトレベル
+# 1 から 20 まで指定できます。
+defaultLevel: 4
+
+# 落下ダメージ保護機能の有効無効を切り替えます。
+protectFallDamage: true
+
+# WireRodのクラフト可/不可を切り替えます。
+enableCraft: true
+</pre>
+</p>
+
+<h2>ソースコード</h2>
+
+<p>
+ソースコードはGithubで管理しています。ライセンスは LGPLv3 を適用します。<br/>
+https://github.com/ucchyocean/WireRod
+</p>
+
+
+      </div>
+    </main>
+
+  </body>
+</html>
+
